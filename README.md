@@ -8,6 +8,10 @@ The goal of this project was to learn to avoid deadlock and race conditions when
 
 ***For more detailed information, look at the subject of this project.***
 
+## Requirements 
+
+This project is written in C language and thus needs the gcc compiler and some standard C libraries to run.
+
 ## Instructions
 
 ### 1.Cloning the repositories  
