@@ -4,6 +4,7 @@ SRCS = philosophers.c \
 	./src/init.c \
 	./src/clean.c \
 	./src/threads.c \
+	./src/philo_one.c \
 	./src/philos.c
 
 OBJS = ${SRCS:.c=.o}

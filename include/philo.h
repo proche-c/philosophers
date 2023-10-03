@@ -27,6 +27,9 @@ typedef struct s_philo
 {
 	int				num_p;
 	int				m_eaten;
+	int				flag;
+	int				finish;
+	int				eating;
 	unsigned long	last_meal;
 	int				fork_1;
 	int				fork_2;
@@ -41,12 +44,13 @@ typedef struct s_env
 	unsigned long	t_eat;
 	unsigned long	t_sleep;
 	int				death;
-	int				flag;
 	int				n_meals;
-	int				meals;
+	int				finish;
+	int				round;
 	unsigned long	t_start;
 	t_philo 		*philo;
 	pthread_mutex_t	*forks;
+	//int				*bl_forks;
 	pthread_mutex_t	message;
 	pthread_mutex_t change;
 }	t_env;
@@ -64,12 +68,15 @@ void		ft_free_env(t_env *env);
 void 		ft_destroy(t_env *env);
 int 		ft_start_threads(t_env *env);
 void 		*ft_routine(void *args);
-int			ft_check_death(t_env *env, t_philo *c_philo);
+//void 	*ft_routine_uneven(void *args);
+void 	*ft_routine_one(void *args);
+//int			ft_check_finish(t_env *env, t_philo *c_philo);
 int			ft_strlen(char *str);
 void		ft_philo_write(t_env *env, t_philo *c_philo, char *str);
 void 		ft_get_forks(t_env *env, t_philo *c_philo);
+//void 		ft_get_forks_uneven(t_env *env, t_philo *c_philo);
 void 		ft_eat(t_env *env, t_philo *c_philo);
 void 		ft_sleep(t_env *env, t_philo *c_philo);
-void 		ft_think(t_env *env, t_philo *c_philo);
+//void 		ft_think(t_env *env, t_philo *c_philo);
 
 #endif

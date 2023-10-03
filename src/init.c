@@ -28,9 +28,10 @@ int 	ft_init_env(int ac, char **args, t_env *env)
 	env->t_die = ft_atoi(args[2]) * 1000;
 	env->t_eat = ft_atoi(args[3]) * 1000;
 	env->t_sleep = ft_atoi(args[4]) * 1000;
-	env->meals = 0;
-	env->n_meals = 0;
-	env->flag = 0;
+	env->death = 0;
+	env->n_meals = - 1;
+	env->finish = 0;
+	env->round = 0;
 	env->philo = malloc(sizeof(t_philo) * env->n_philos);
 	if (!env->philo)
 		return (1);
@@ -42,7 +43,6 @@ int 	ft_init_env(int ac, char **args, t_env *env)
 	}
 	if (ac == 6)
 	{
-		env->meals = 1;
 		env->n_meals = ft_atoi(args[5]);
 	}
 	return (0);
@@ -55,6 +55,7 @@ int	ft_init_philos(t_env *env)
 	i = 0;
 	while (i < env->n_philos)
 	{
+		env->philo[i].eating = 0;
 		env->philo[i].num_p = i + 1;
 		env->philo[i].m_eaten = 0;
 		env->philo[i].fork_1 = i;
@@ -62,8 +63,8 @@ int	ft_init_philos(t_env *env)
 			env->philo[i].fork_2 = i + 1;
 		else
 			env->philo[i].fork_2 = 0;
+		env->philo[i].finish = 0;
 		env->philo[i].env = env;
-		printf("philo %d init\n", env->philo[i].num_p);
 		i++;
 	}
 	return (0);
@@ -78,14 +79,12 @@ int	ft_init_forks(t_env *env)
 	{
 		if (pthread_mutex_init(&(env->forks[i]), NULL))
 			return (1);
-		printf("fork %d init\n", i + 1);
 		i++;
 	}
 	if (pthread_mutex_init(&(env->message), NULL))
 		return (1);
 	if (pthread_mutex_init(&(env->change), NULL))
 		return (1);
-	write(1, "message init\n", 13);
 	return (0);
 }
 
