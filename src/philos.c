@@ -28,11 +28,39 @@ void	ft_philo_write(t_env *env, t_philo *c_philo, char *str)
 	}
 }
 
-int	ft_check_mutex(t_env *env, t_philo *c_philo)
+int	ft_get_left(t_env *env, t_philo *c_philo)
+{
+	int	left;
+
+	if (c_philo->num_p != 1 && c_philo->num_p != env->n_philos)
+		left = c_philo->num_p - 1;
+	else if (c_philo->num_p == 1)
+		left = env->n_philos;
+	else if (c_philo->num_p == env->n_philos)
+		left = c_philo->num_p - 1;
+	return (left);
+}
+
+int	ft_get_rigth(t_env *env, t_philo *c_philo)
+{
+	int	rigth;
+
+	if (c_philo->num_p != 1 && c_philo->num_p != env->n_philos)
+		rigth = c_philo->num_p + 1;
+	else if (c_philo->num_p == 1)
+		rigth = 2;
+	else if (c_philo->num_p == env->n_philos)
+		rigth = 1;
+	return (rigth);
+}
+
+int	ft_check_death(t_env *env, t_philo *c_philo)
 {
 	int	left;
 	int	rigth;
 
+	left = ft_get_left(env, c_philo);
+	rigth = ft_get_rigth(env, c_philo);
 	if (c_philo->num_p != 1 && c_philo->num_p != env->n_philos)
 	{
 		left = c_philo->num_p - 1;
@@ -56,7 +84,7 @@ void	ft_get_forks(t_env *env, t_philo *c_philo)
 	{
 		if (c_philo->num_p % 2 != 0)
 		{
-			if (ft_check_mutex(env, c_philo) == 1)
+			if (ft_check_death(env, c_philo) == 1)
 				return ;
 			pthread_mutex_lock(&(env->forks[c_philo->fork_1]));
 			pthread_mutex_lock(&(env->forks[c_philo->fork_2]));
