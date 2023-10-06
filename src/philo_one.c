@@ -31,27 +31,6 @@ void 	*ft_routine_one(void *args)
 	pthread_mutex_unlock(&(env->change));
 	pthread_mutex_unlock(&(env->message));
 	pthread_mutex_unlock(&(env->forks[c_philo->fork_1]));
-	//ft_philo_write(env, c_philo, "created");
-	// while (1)
-	// {
-	// 	if (ft_check_death(env, c_philo) == 1)
-	// 		break;
-	// 	else
-	// 	{
-	// 		ft_get_forks(env, c_philo);
-	// 		ft_eat(env, c_philo);
-	// 	}
-	//  	if (ft_check_death(env, c_philo) == 1)
-	//  		break;
-	//  	else
-	//  		ft_sleep(env, c_philo);
-	//  	if (ft_check_death(env, c_philo) == 1)
-	//  		break;
-	//  	else
-	//  		ft_think(env, c_philo);
-	// 	if (ft_check_death(env, c_philo) == 1)
-	//  		break;
-	// }
 	return (NULL);
 }
 

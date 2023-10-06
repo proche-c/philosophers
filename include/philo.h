@@ -73,7 +73,7 @@ void 	*ft_routine_one(void *args);
 //int			ft_check_finish(t_env *env, t_philo *c_philo);
 int			ft_strlen(char *str);
 void		ft_philo_write(t_env *env, t_philo *c_philo, char *str);
-void 		ft_get_forks(t_env *env, t_philo *c_philo);
+void 		ft_eat(t_env *env, t_philo *c_philo);
 //void 		ft_get_forks_uneven(t_env *env, t_philo *c_philo);
 void 		ft_eat(t_env *env, t_philo *c_philo);
 void 		ft_sleep(t_env *env, t_philo *c_philo);
