@@ -16,23 +16,22 @@ void 	*ft_routine(void *args)
 {
 	t_philo	*c_philo;
 	t_env	*env;
-	int		stop;
 
 	c_philo = (t_philo *)args;
 	env = c_philo->env;
 	stop = 0;
-	while (stop < 1)
+	while (env->death == 0 && c_philo->finish == 0)
 	{
-		//if (env->n_philos % 2 == 0)
-			ft_eat(env, c_philo);
-		if (env->death == 1 || c_philo->finish == 1)
+		if (env->n_philos % 2 == 0)
 		{
-			stop++;
-			pthread_mutex_lock(&(env->message));
-			printf("philo %d stop\n", c_philo->num_p);
-			printf("env->death %d stop\n", env->death);
-			printf("c_philo->finish %d stop\n", c_philo->finish);
-			pthread_mutex_unlock(&(env->message));
+			ft_eat_even(env, c_philo);
+			ft_sleep(env, c_philo);
+			ft_routine_even(env, c_philo);
+		}
+		else
+		{
+			ft_eat_even(env, c_philo);
+			ft_routine_uneven(env, c_philo);
 		}
 	}
 	return (NULL);
@@ -55,7 +54,7 @@ int 	ft_start_threads(t_env *env)
 		i = 0;
 		while (i < env->n_philos)
 		{
-			env->philo[i].last_meal = env->t_start;
+			env->last_meals[i] = env->t_start;
 			if (pthread_create(&env->philo[i].id, NULL, ft_routine, &(env->philo[i])) != 0)
 				return (1);
 			pthread_mutex_lock(&(env->change));

@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+ /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
@@ -31,7 +31,7 @@ int 	ft_init_env(int ac, char **args, t_env *env)
 	env->death = 0;
 	env->n_meals = - 1;
 	env->finish = 0;
-	env->round = 0;
+	env->round = 1;
 	env->philo = malloc(sizeof(t_philo) * env->n_philos);
 	if (!env->philo)
 		return (1);
@@ -39,6 +39,13 @@ int 	ft_init_env(int ac, char **args, t_env *env)
 	if (!env->forks)
 	{
 		free(env->philo);
+		return (1);
+	}
+	env->last_meals = malloc(sizeof(unsigned long) * env->n_philos);
+	if (!env->last_meals)
+	{
+		free(env->philo);
+		free(env->forks);
 		return (1);
 	}
 	if (ac == 6)
