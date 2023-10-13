@@ -16,6 +16,7 @@ void	ft_free_env(t_env *env)
 {
 	free(env->philo);
 	free(env->forks);
+	free(env->last_meals);
 }
 
 void 	ft_destroy(t_env *env)

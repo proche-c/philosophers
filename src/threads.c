@@ -19,19 +19,20 @@ void 	*ft_routine(void *args)
 
 	c_philo = (t_philo *)args;
 	env = c_philo->env;
-	stop = 0;
 	while (env->death == 0 && c_philo->finish == 0)
 	{
-		if (env->n_philos % 2 == 0)
+		if (env->t_die <= env->t_eat)
+			ft_die_eating(env, c_philo);
+		else if (env->n_philos % 2 == 0)
 		{
 			ft_eat_even(env, c_philo);
-			ft_sleep(env, c_philo);
-			ft_routine_even(env, c_philo);
+			//ft_sleep(env, c_philo);
+			//ft_routine_even(env, c_philo);
 		}
 		else
 		{
-			ft_eat_even(env, c_philo);
-			ft_routine_uneven(env, c_philo);
+			ft_eat_uneven(env, c_philo);
+			//ft_routine_uneven(env, c_philo);
 		}
 	}
 	return (NULL);
@@ -55,6 +56,12 @@ int 	ft_start_threads(t_env *env)
 		while (i < env->n_philos)
 		{
 			env->last_meals[i] = env->t_start;
+			i++;
+		}
+		i = 0;
+		while (i < env->n_philos)
+		{
+			//env->last_meals[i] = env->t_start;
 			if (pthread_create(&env->philo[i].id, NULL, ft_routine, &(env->philo[i])) != 0)
 				return (1);
 			pthread_mutex_lock(&(env->change));
@@ -66,6 +73,8 @@ int 	ft_start_threads(t_env *env)
 		{
 			if (pthread_join(env->philo[i].id, NULL) != 0)
 				return (1);
+			// if (pthread_detach(env->philo[i].id) != 0)
+			// 	return (1);
 			pthread_mutex_lock(&(env->change));
 			i++;
 			pthread_mutex_unlock(&(env->change));

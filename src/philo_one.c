@@ -34,4 +34,33 @@ void 	*ft_routine_one(void *args)
 	return (NULL);
 }
 
-
+void	ft_die_eating(t_env *env, t_philo *c_philo)
+{
+	if ((env->n_philos % 2 == 0 && c_philo->num_p % 2 != 0)
+		|| (env->n_philos % 2 != 0 && c_philo->num_p % 2 != 0
+			&& c_philo->num_p % 2 != env->n_philos))
+	{
+		pthread_mutex_lock(&(env->forks[c_philo->fork_1]));
+		pthread_mutex_lock(&(env->forks[c_philo->fork_2]));
+		if (env->death == 0)
+		{
+			pthread_mutex_lock(&(env->message));
+			ft_philo_write(env, c_philo, "has taken a fork");
+			ft_philo_write(env, c_philo, "has taken a fork");
+			ft_philo_write(env, c_philo, "is eating");
+			pthread_mutex_unlock(&(env->message));
+		}
+		usleep(env->t_die);
+		pthread_mutex_lock(&(env->change));
+		if (env->death == 0)
+		{
+			pthread_mutex_lock(&(env->message));
+			ft_philo_write(env, c_philo, "died");
+			pthread_mutex_unlock(&(env->message));
+			env->death = 1;
+		}
+		pthread_mutex_unlock(&(env->change));
+		pthread_mutex_unlock(&(env->forks[c_philo->fork_1]));
+		pthread_mutex_unlock(&(env->forks[c_philo->fork_2]));
+	}
+}

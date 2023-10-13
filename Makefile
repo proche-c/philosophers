@@ -1,11 +1,13 @@
 SRCS = philosophers.c \
 	./src/checkers.c \
-	./src/utils.c \
-	./src/init.c \
 	./src/clean.c \
-	./src/threads.c \
+	./src/init.c \
 	./src/philo_one.c \
-	./src/philos.c
+	./src/philos_even.c \
+	./src/philos_uneven.c \
+	./src/philos_utils.c \
+	./src/threads.c \
+	./src/utils.c \
 
 OBJS = ${SRCS:.c=.o}
 
