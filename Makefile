@@ -4,6 +4,7 @@ SRCS = philosophers.c \
 	./src/init.c \
 	./src/philo_one.c \
 	./src/philos_even.c \
+	./src/philos_print.c \
 	./src/philos_uneven.c \
 	./src/philos_utils.c \
 	./src/threads.c \
@@ -23,14 +24,8 @@ RM = rm -f
 
 all:	$(NAME)
 
-#.c.o:
-#	$(CC) $(CFLAGS) -c $< -o $@
-
 $(NAME):	$(OBJS) $(HEADER)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-
-#.c.o:
-#	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
 .PHONY:	clean fclean re
 

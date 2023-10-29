@@ -23,17 +23,6 @@ void	ft_update_round_even(t_env *env, t_philo *c_philo)
 	}
 }
 
-void	ft_check_philo_finish(t_env *env, t_philo *c_philo)
-{
-	if (c_philo->m_eaten == env->n_meals)
-	{
-		//pthread_mutex_lock(&(env->change));
-		c_philo->finish = 1;
-		//pthread_mutex_unlock(&(env->change));
-		return ;
-	}
-}
-
 void	ft_eat_even(t_env *env, t_philo *c_philo)
 {
 
@@ -48,12 +37,7 @@ void	ft_eat_even(t_env *env, t_philo *c_philo)
 				c_philo->last_meal = ft_gettime();
 				env->last_meals[c_philo->num_p - 1] = ft_gettime();
 				pthread_mutex_unlock(&(env->change));
-				pthread_mutex_lock(&(env->message));
-				ft_philo_write(env, c_philo, "has taken a fork");
-				ft_philo_write(env, c_philo, "has taken a fork");
-				ft_philo_write(env, c_philo, "is eating");
-				pthread_mutex_unlock(&(env->message));
-				//pthread_mutex_unlock(&(env->change));
+				ft_print_eating(env, c_philo);
 				ft_eat_to_sleep(env, c_philo);
 			}
 			else if (env->death == 1)
@@ -66,7 +50,6 @@ void	ft_eat_even(t_env *env, t_philo *c_philo)
 
 void	ft_eat_to_sleep(t_env *env, t_philo *c_philo)
 {
-	//printf("ENTRO EN FT_EAT_TO_SLEEP\n");
 	usleep(env->t_eat);
 	if (env->death == 0)
 	{
@@ -83,9 +66,7 @@ void	ft_eat_to_sleep(t_env *env, t_philo *c_philo)
 			return ;
 		if (env->death == 0)
 		{
-			pthread_mutex_lock(&(env->message));
-			ft_philo_write(env, c_philo, "is sleeping");
-			pthread_mutex_unlock(&(env->message));
+			ft_print_sleeping(env, c_philo);
 			ft_sleep_to_think(env, c_philo);
 		}
 	}
@@ -100,7 +81,6 @@ void	ft_sleep_to_think(t_env *env, t_philo *c_philo)
 {
 	unsigned long	life;
 
-	//printf("ENTRO EN FT_SLEEP_TO_THINK\n");
 	pthread_mutex_lock(&(env->change));
 	life = ft_getlife(env, c_philo);
 	pthread_mutex_unlock(&(env->change));
@@ -110,10 +90,7 @@ void	ft_sleep_to_think(t_env *env, t_philo *c_philo)
 		if (env->death == 0)
 		{
 			pthread_mutex_lock(&(env->change));
-			//env->death = 1;
-			pthread_mutex_lock(&(env->message));
-			ft_philo_write(env, c_philo, "died");
-			pthread_mutex_unlock(&(env->message));
+			ft_print_die_and_print(env, c_philo);
 			env->death = 1;
 			pthread_mutex_unlock(&(env->change));
 			return ;
@@ -124,9 +101,7 @@ void	ft_sleep_to_think(t_env *env, t_philo *c_philo)
 		usleep(env->t_sleep);
 		if (env->death == 0)
 		{
-			pthread_mutex_lock(&(env->message));
-			ft_philo_write(env, c_philo, "is thinking");
-			pthread_mutex_unlock(&(env->message));
+			ft_print_thinking(env, c_philo);
 			ft_thinking(env, c_philo);
 		}
 	}
@@ -139,7 +114,6 @@ void	ft_thinking(t_env *env, t_philo *c_philo)
 	int	die;
 	int	life;
 
-	//printf("ENTRO EN FT_THINKING\n");
 	pthread_mutex_lock(&(env->change));
 	left = ft_get_left(env, c_philo);
 	rigth = ft_get_rigth(env, c_philo);
@@ -152,11 +126,9 @@ void	ft_thinking(t_env *env, t_philo *c_philo)
 		if (env->death == 0)
 		{
 			pthread_mutex_lock(&(env->change));
-			//env->death = 1;
-			pthread_mutex_lock(&(env->message));
-			ft_philo_write(env, c_philo, "died");
-			pthread_mutex_unlock(&(env->message));
+			ft_print_die_and_print(env, c_philo);
 			env->death = 1;
+			//ft_print_die_and_print(env, c_philo);
 			pthread_mutex_unlock(&(env->change));
 		}
 	}	

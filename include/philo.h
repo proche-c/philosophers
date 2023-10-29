@@ -40,6 +40,7 @@ typedef struct s_philo
 typedef struct s_env
 {
 	int				n_philos;
+	int				start;
 	unsigned long	t_die;
 	unsigned long	t_eat;
 	unsigned long	t_sleep;
@@ -75,18 +76,24 @@ void			ft_die_eating(t_env *env, t_philo *c_philo);
 
 /*	philos_utils	*/
 unsigned long	ft_getlife(t_env *env, t_philo *c_philo);
-void			ft_philo_write(t_env *env, t_philo *c_philo, char *str);
+void			ft_check_philo_finish(t_env *env, t_philo *c_philo);
 int				ft_get_left(t_env *env, t_philo *c_philo);
 int				ft_get_rigth(t_env *env, t_philo *c_philo);
-int			ft_check_death(t_env *env, t_philo *c_philo, int left, int rigth);
+int				ft_check_death(t_env *env, t_philo *c_philo, int left, int rigth);
 
 /*	philos_even	*/
 void			ft_update_round_even(t_env *env, t_philo *c_philo);
-void			ft_check_philo_finish(t_env *env, t_philo *c_philo);
 void			ft_eat_even(t_env *env, t_philo *c_philo);
 void			ft_eat_to_sleep(t_env *env, t_philo *c_philo);
 void			ft_sleep_to_think(t_env *env, t_philo *c_philo);
 void			ft_thinking(t_env *env, t_philo *c_philo);
+
+/*	philos_print	*/
+void			ft_philo_write(t_env *env, t_philo *c_philo, char *str);
+void			ft_print_eating(t_env *env, t_philo *c_philo);
+void			ft_print_sleeping(t_env *env, t_philo *c_philo);
+void			ft_print_thinking(t_env *env, t_philo *c_philo);
+void			ft_print_die_and_print(t_env *env, t_philo *c_philo);
 
 /*	philos_uneven	*/
 void			ft_update_round_uneven(t_env *env, t_philo *c_philo);

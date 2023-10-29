@@ -17,14 +17,12 @@ unsigned long	ft_getlife(t_env *env, t_philo *c_philo)
 	return (env->t_die - (ft_gettime() - c_philo->last_meal));
 }
 
-void	ft_philo_write(t_env *env, t_philo *c_philo, char *str)
+void	ft_check_philo_finish(t_env *env, t_philo *c_philo)
 {
-	unsigned long	time;
-
-	if (env->death == 0)
+	if (c_philo->m_eaten == env->n_meals)
 	{
-		time = ft_gettime() / 1000;
-		printf("%lu %d %s\n", time, c_philo->num_p, str);
+		c_philo->finish = 1;
+		return ;
 	}
 }
 
@@ -62,38 +60,20 @@ int	ft_check_death(t_env *env, t_philo *c_philo, int left, int rigth)
 	unsigned long	t_left;
 
 	time = ft_gettime();
-	// printf("\n**** %d *****\n", c_philo->num_p);
-	// printf("time: %lu\n", ft_gettime());
 	life = ft_getlife(env, c_philo);
-	// printf("philo left: %d\n", left);
-	// printf("philo rigth: %d\n", rigth);
 	if ((env->last_meals[left] + env->t_eat) >= time && (env->last_meals[rigth] + env->t_eat) >= time)
 	{
-		//printf("los de al lado estan comiendo\n");
 		t_left = env->last_meals[left] + env->t_eat - time;
 		t_rigth = env->last_meals[rigth] + env->t_eat - time;
-		// printf("al de la izquierda le quedan %lu\n", t_left);
-		// printf("al de la derecha le quedan %lu\n", t_rigth);
-		// printf("a %d le quedan %lu de vida\n", c_philo->num_p, life);
 		if (t_left < t_rigth)
 		{
 			if (life < t_left)
-			{
-				pthread_mutex_lock(&(env->message));
-				//ft_philo_write(env, c_philo, "WILL DIE");
-				pthread_mutex_unlock(&(env->message));
 				return (1);
-			}
 		}
 		else
 		{
 			if (life < t_rigth)
-			{
-				pthread_mutex_lock(&(env->message));
-				//ft_philo_write(env, c_philo, "WILL DIE");
-				pthread_mutex_unlock(&(env->message));
 				return (1);
-			}
 		}
 	}
 	return (0);

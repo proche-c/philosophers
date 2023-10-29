@@ -32,6 +32,7 @@ int 	ft_init_env(int ac, char **args, t_env *env)
 	env->n_meals = - 1;
 	env->finish = 0;
 	env->round = 1;
+	env->start = 0;
 	env->philo = malloc(sizeof(t_philo) * env->n_philos);
 	if (!env->philo)
 		return (1);
