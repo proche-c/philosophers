@@ -128,7 +128,6 @@ void	ft_thinking(t_env *env, t_philo *c_philo)
 			pthread_mutex_lock(&(env->change));
 			ft_print_die_and_print(env, c_philo);
 			env->death = 1;
-			//ft_print_die_and_print(env, c_philo);
 			pthread_mutex_unlock(&(env->change));
 		}
 	}	

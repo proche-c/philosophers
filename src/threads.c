@@ -24,7 +24,7 @@ void 	*ft_routine(void *args)
 		if (env->start == 1)
 			break ;
 	}
-	usleep(100);
+	//usleep(100);
 	while (env->death == 0 && c_philo->finish == 0)
 	{
 		if (env->t_die <= env->t_eat)
