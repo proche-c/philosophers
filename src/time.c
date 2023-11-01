@@ -33,12 +33,12 @@ void	ft_usleep(t_env *env, unsigned long w_time)
 	unsigned long	t_control;
 
 	start = ft_gettime();
-	while (1)
+	while (1 || env->death == 0)
 	{
 		usleep(200);
-		pthread_mutex_lock(&(env->change));
+		//pthread_mutex_lock(&(env->change));
 		t_control = ft_gettime() - start;
-		pthread_mutex_unlock(&(env->change));
+		//pthread_mutex_unlock(&(env->change));
 		if (t_control > w_time)
 			return ;
 		//pthread_mutex_unlock(&(env->change));
