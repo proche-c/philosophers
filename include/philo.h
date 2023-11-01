@@ -30,9 +30,11 @@ typedef struct s_philo
 	int				flag;
 	int				finish;
 	int				eating;
-	unsigned long	last_meal;
+	//unsigned long	last_meal;
 	int				fork_1;
 	int				fork_2;
+	int				left;
+	int				rigth;
 	pthread_t		id;
 	struct s_env	*env;
 }	t_philo;
@@ -76,10 +78,9 @@ void 			*ft_routine_one(void *args);
 void			ft_die_eating(t_env *env, t_philo *c_philo);
 
 /*	philos_utils	*/
-unsigned long	ft_getlife(t_env *env, t_philo *c_philo);
 void			ft_check_philo_finish(t_env *env, t_philo *c_philo);
-int				ft_get_left(t_env *env, t_philo *c_philo);
-int				ft_get_rigth(t_env *env, t_philo *c_philo);
+int				ft_get_left(t_env *env, int i);
+int				ft_get_rigth(t_env *env, int i);
 int				ft_check_death(t_env *env, t_philo *c_philo, int left, int rigth);
 
 /*	philos_even	*/
@@ -107,6 +108,8 @@ int 			ft_start_threads(t_env *env);
 
 /*	time	*/
 unsigned long	ft_gettime(void);
+unsigned long	ft_getlife(t_env *env, t_philo *c_philo);
+void			ft_usleep(t_env *env, unsigned long w_time);
 
 /*	utils	*/ // 2 static
 unsigned long	ft_atoi(const char *str);

@@ -35,7 +35,6 @@ void	ft_eat_uneven(t_env *env, t_philo *c_philo)
 		if (env->death == 0 && c_philo->finish == 0)
 		{
 			pthread_mutex_lock(&(env->change));
-			c_philo->last_meal = ft_gettime();
 			env->last_meals[c_philo->num_p - 1] = ft_gettime();
 			pthread_mutex_unlock(&(env->change));
 			ft_print_eating(env, c_philo);

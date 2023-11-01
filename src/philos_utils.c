@@ -12,11 +12,6 @@
 
 #include "philo.h"
 
-unsigned long	ft_getlife(t_env *env, t_philo *c_philo)
-{
-	return (env->t_die - (ft_gettime() - c_philo->last_meal));
-}
-
 void	ft_check_philo_finish(t_env *env, t_philo *c_philo)
 {
 	if (c_philo->m_eaten == env->n_meals)
@@ -26,29 +21,25 @@ void	ft_check_philo_finish(t_env *env, t_philo *c_philo)
 	}
 }
 
-int	ft_get_left(t_env *env, t_philo *c_philo)
+int	ft_get_left(t_env *env, int i)
 {
 	int	left;
 
-	if (c_philo->num_p != 1 && c_philo->num_p != env->n_philos)
-		left = c_philo->num_p - 2;
-	else if (c_philo->num_p == 1)
+	if (i == 0)
 		left = env->n_philos - 1;
 	else
-		left = c_philo->num_p - 2;
+		left = i - 1;
 	return (left);
 }
 
-int	ft_get_rigth(t_env *env, t_philo *c_philo)
+int	ft_get_rigth(t_env *env, int i)
 {
 	int	rigth;
 
-	if (c_philo->num_p != 1 && c_philo->num_p != env->n_philos)
-		rigth = c_philo->num_p ;
-	else if (c_philo->num_p == 1)
-		rigth = 1;
+	if (i == env->n_philos - 1)
+		rigth = 0 ;
 	else
-		rigth = 0;
+		rigth = i + 1;
 	return (rigth);
 }
 
@@ -59,13 +50,20 @@ int	ft_check_death(t_env *env, t_philo *c_philo, int left, int rigth)
 	unsigned long	t_rigth;
 	unsigned long	t_left;
 
+	//pthread_mutex_lock(&(env->change));
 	time = ft_gettime();
 	life = ft_getlife(env, c_philo);
+	// printf("Time: %lu\n", time);
+	// printf("philo %d lasta meal was %lu\n", c_philo->num_p, env->last_meals[c_philo->num_p - 1]);
+	// printf("life left: %lu\n", life);
 	if ((env->last_meals[left] + env->t_eat) >= time
 		&& (env->last_meals[rigth] + env->t_eat) >= time)
 	{
 		t_left = env->last_meals[left] + env->t_eat - time;
 		t_rigth = env->last_meals[rigth] + env->t_eat - time;
+		//printf("t_left: %lu\n", t_left);
+		//printf("t_rigth: %lu\n", t_rigth);
+		//pthread_mutex_unlock(&(env->change));
 		if (t_left < t_rigth)
 		{
 			if (life < t_left)
@@ -77,5 +75,6 @@ int	ft_check_death(t_env *env, t_philo *c_philo, int left, int rigth)
 				return (1);
 		}
 	}
+	//pthread_mutex_unlock(&(env->change));
 	return (0);
 }

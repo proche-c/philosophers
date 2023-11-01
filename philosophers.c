@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-int 	main(int ac, char **args)
+int	main(int ac, char **args)
 {
 	t_env	env;
 	int		result;

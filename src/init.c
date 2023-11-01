@@ -68,6 +68,8 @@ int	ft_init_philos(t_env *env)
 			env->philo[i].fork_2 = 0;
 		env->philo[i].finish = 0;
 		env->philo[i].env = env;
+		env->philo[i].left = ft_get_left(env, i);
+		env->philo[i].rigth = ft_get_rigth(env, i);
 		i++;
 	}
 	return (0);

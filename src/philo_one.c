@@ -23,7 +23,7 @@ void	*ft_routine_one(void *args)
 	pthread_mutex_lock(&(env->message));
 	ft_philo_write(env, c_philo, "has taken a fork");
 	pthread_mutex_unlock(&(env->message));
-	usleep(env->t_die);
+	ft_usleep(env, env->t_die);
 	ft_print_death(env, c_philo);
 	pthread_mutex_lock(&(env->change));
 	env->death = 1;
@@ -42,7 +42,7 @@ void	ft_die_eating(t_env *env, t_philo *c_philo)
 		pthread_mutex_lock(&(env->forks[c_philo->fork_2]));
 		if (env->death == 0)
 			ft_print_eating(env, c_philo);
-		usleep(env->t_die);
+		ft_usleep(env, env->t_die);
 		if (env->death == 0)
 		{
 			ft_print_death(env, c_philo);

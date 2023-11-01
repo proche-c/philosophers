@@ -29,8 +29,8 @@ static int	ft_check_sign(char c)
 
 unsigned long	ft_atoi(const char *str)
 {
-	int			i;
-	int			sign;
+	int				i;
+	int				sign;
 	unsigned long	num;
 	unsigned long	result;
 
