@@ -46,9 +46,16 @@ void	ft_print_thinking(t_env *env, t_philo *c_philo)
 	pthread_mutex_unlock(&(env->message));
 }
 
-void	ft_print_die_and_print(t_env *env, t_philo *c_philo)
+void	ft_print_death(t_env *env, t_philo *c_philo)
 {
+	pthread_mutex_lock(&(env->change));
+	if (env->death_printed == 0)
+	{
 		pthread_mutex_lock(&(env->message));
 		ft_philo_write(env, c_philo, "died");
 		pthread_mutex_unlock(&(env->message));
+		env->death_printed = 1;
+	}
+	env->death = 1;
+	pthread_mutex_unlock(&(env->change));
 }

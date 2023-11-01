@@ -1,7 +1,7 @@
-/* ************************************************************************** */
+ /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean.c                                            :+:      :+:    :+:   */
+/*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: proche-c <proche-c@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,37 +12,12 @@
 
 #include "philo.h"
 
-void	ft_unlock(t_env *env)
+unsigned long	ft_gettime(void)
 {
-	int	i;
+	unsigned long	result;
+	struct timeval	time;
 
-	i = 0;
-	while (i < env->n_philos)
-	{
-		pthread_mutex_unlock(&(env->forks[i]));
-		i++;
-	}
-	pthread_mutex_unlock(&(env->change));
-	pthread_mutex_unlock(&(env->message));
-}
-
-void	ft_free_env(t_env *env)
-{
-	free(env->philo);
-	free(env->forks);
-	free(env->last_meals);
-}
-
-void	ft_destroy(t_env *env)
-{
-	int	i;
-
-	i = 0;
-	while (i < env->n_philos)
-	{
-		pthread_mutex_destroy(&(env->forks[i]));
-		i++;
-	}
-	pthread_mutex_destroy(&(env->message));
-	pthread_mutex_destroy(&(env->change));
+	gettimeofday(&time, NULL);
+	result = time.tv_sec * 1000000 + time.tv_usec;
+	return (result);
 }

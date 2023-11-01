@@ -25,26 +25,25 @@ void	ft_update_round_even(t_env *env, t_philo *c_philo)
 
 void	ft_eat_even(t_env *env, t_philo *c_philo)
 {
-
 	if ((c_philo->num_p % 2 != 0 && env->round == 1)
 		|| (c_philo->num_p % 2 == 0 && env->round == 2))
 	{
-			pthread_mutex_lock(&(env->forks[c_philo->fork_1]));
-			pthread_mutex_lock(&(env->forks[c_philo->fork_2]));
-			if (env->death == 0 && c_philo->finish == 0)
-			{
-				pthread_mutex_lock(&(env->change));
-				c_philo->last_meal = ft_gettime();
-				env->last_meals[c_philo->num_p - 1] = ft_gettime();
-				pthread_mutex_unlock(&(env->change));
-				ft_print_eating(env, c_philo);
-				ft_eat_to_sleep(env, c_philo);
-			}
-			else if (env->death == 1)
-			{
-				pthread_mutex_unlock(&(env->forks[c_philo->fork_1]));
-				pthread_mutex_unlock(&(env->forks[c_philo->fork_2]));				
-			}
+		pthread_mutex_lock(&(env->forks[c_philo->fork_1]));
+		pthread_mutex_lock(&(env->forks[c_philo->fork_2]));
+		if (env->death == 0 && c_philo->finish == 0)
+		{
+			pthread_mutex_lock(&(env->change));
+			c_philo->last_meal = ft_gettime();
+			env->last_meals[c_philo->num_p - 1] = ft_gettime();
+			pthread_mutex_unlock(&(env->change));
+			ft_print_eating(env, c_philo);
+			ft_eat_to_sleep(env, c_philo);
+		}
+		else if (env->death == 1)
+		{
+			pthread_mutex_unlock(&(env->forks[c_philo->fork_1]));
+			pthread_mutex_unlock(&(env->forks[c_philo->fork_2]));
+		}
 	}
 }
 
@@ -70,11 +69,6 @@ void	ft_eat_to_sleep(t_env *env, t_philo *c_philo)
 			ft_sleep_to_think(env, c_philo);
 		}
 	}
-	else
-	{
-		pthread_mutex_unlock(&(env->forks[c_philo->fork_1]));
-		pthread_mutex_unlock(&(env->forks[c_philo->fork_2]));
-	}
 }
 
 void	ft_sleep_to_think(t_env *env, t_philo *c_philo)
@@ -89,10 +83,7 @@ void	ft_sleep_to_think(t_env *env, t_philo *c_philo)
 		usleep(life);
 		if (env->death == 0)
 		{
-			pthread_mutex_lock(&(env->change));
-			ft_print_die_and_print(env, c_philo);
-			env->death = 1;
-			pthread_mutex_unlock(&(env->change));
+			ft_print_death(env, c_philo);
 			return ;
 		}
 	}
@@ -125,10 +116,7 @@ void	ft_thinking(t_env *env, t_philo *c_philo)
 		usleep(life);
 		if (env->death == 0)
 		{
-			pthread_mutex_lock(&(env->change));
-			ft_print_die_and_print(env, c_philo);
-			env->death = 1;
-			pthread_mutex_unlock(&(env->change));
+			ft_print_death(env, c_philo);
 		}
-	}	
+	}
 }

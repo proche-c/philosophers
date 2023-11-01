@@ -8,6 +8,7 @@ SRCS = philosophers.c \
 	./src/philos_uneven.c \
 	./src/philos_utils.c \
 	./src/threads.c \
+	./src/time.c \
 	./src/utils.c \
 
 OBJS = ${SRCS:.c=.o}

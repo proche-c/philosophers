@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-void 	*ft_routine_one(void *args)
+void	*ft_routine_one(void *args)
 {
 	t_philo	*c_philo;
 	t_env	*env;
@@ -24,12 +24,10 @@ void 	*ft_routine_one(void *args)
 	ft_philo_write(env, c_philo, "has taken a fork");
 	pthread_mutex_unlock(&(env->message));
 	usleep(env->t_die);
-	pthread_mutex_lock(&(env->message));
-	ft_philo_write(env, c_philo, "died");
+	ft_print_death(env, c_philo);
 	pthread_mutex_lock(&(env->change));
 	env->death = 1;
 	pthread_mutex_unlock(&(env->change));
-	pthread_mutex_unlock(&(env->message));
 	pthread_mutex_unlock(&(env->forks[c_philo->fork_1]));
 	return (NULL);
 }
@@ -43,23 +41,12 @@ void	ft_die_eating(t_env *env, t_philo *c_philo)
 		pthread_mutex_lock(&(env->forks[c_philo->fork_1]));
 		pthread_mutex_lock(&(env->forks[c_philo->fork_2]));
 		if (env->death == 0)
-		{
-			pthread_mutex_lock(&(env->message));
-			ft_philo_write(env, c_philo, "has taken a fork");
-			ft_philo_write(env, c_philo, "has taken a fork");
-			ft_philo_write(env, c_philo, "is eating");
-			pthread_mutex_unlock(&(env->message));
-		}
+			ft_print_eating(env, c_philo);
 		usleep(env->t_die);
-		pthread_mutex_lock(&(env->change));
 		if (env->death == 0)
 		{
-			pthread_mutex_lock(&(env->message));
-			ft_philo_write(env, c_philo, "died");
-			pthread_mutex_unlock(&(env->message));
-			env->death = 1;
+			ft_print_death(env, c_philo);
 		}
-		pthread_mutex_unlock(&(env->change));
 		pthread_mutex_unlock(&(env->forks[c_philo->fork_1]));
 		pthread_mutex_unlock(&(env->forks[c_philo->fork_2]));
 	}

@@ -14,7 +14,8 @@
 
 void	ft_update_round_uneven(t_env *env, t_philo *c_philo)
 {
-	if (c_philo->num_p == 1 || c_philo->num_p == 2 || c_philo->num_p == env->n_philos)
+	if (c_philo->num_p == 1 || c_philo->num_p == 2
+		|| c_philo->num_p == env->n_philos)
 	{
 		if (env->round == 1 || env->round == 2)
 			env->round++;
@@ -25,9 +26,9 @@ void	ft_update_round_uneven(t_env *env, t_philo *c_philo)
 
 void	ft_eat_uneven(t_env *env, t_philo *c_philo)
 {
-	if ((c_philo->num_p % 2 != 0 && c_philo->num_p != env->n_philos && env->round == 1)
-		|| (c_philo->num_p % 2 == 0 && env->round == 2)
-			|| (c_philo->num_p == env->n_philos && env->round == 3))
+	if ((c_philo->num_p % 2 != 0 && c_philo->num_p != env->n_philos
+			&& env->round == 1) || (c_philo->num_p % 2 == 0 && env->round == 2)
+		|| (c_philo->num_p == env->n_philos && env->round == 3))
 	{
 		pthread_mutex_lock(&(env->forks[c_philo->fork_1]));
 		pthread_mutex_lock(&(env->forks[c_philo->fork_2]));
@@ -43,7 +44,7 @@ void	ft_eat_uneven(t_env *env, t_philo *c_philo)
 		else if (env->death == 1)
 		{
 			pthread_mutex_unlock(&(env->forks[c_philo->fork_1]));
-			pthread_mutex_unlock(&(env->forks[c_philo->fork_2]));				
+			pthread_mutex_unlock(&(env->forks[c_philo->fork_2]));
 		}
 	}
 }
@@ -59,7 +60,9 @@ void	ft_eat_to_sleep_uneven(t_env *env, t_philo *c_philo)
 		pthread_mutex_unlock(&(env->change));
 		pthread_mutex_unlock(&(env->forks[c_philo->fork_1]));
 		pthread_mutex_unlock(&(env->forks[c_philo->fork_2]));
+		pthread_mutex_lock(&(env->change));
 		ft_check_philo_finish(env, c_philo);
+		pthread_mutex_unlock(&(env->change));
 		if (c_philo->finish == 1)
 			return ;
 		if (env->death == 0)

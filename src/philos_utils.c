@@ -61,7 +61,8 @@ int	ft_check_death(t_env *env, t_philo *c_philo, int left, int rigth)
 
 	time = ft_gettime();
 	life = ft_getlife(env, c_philo);
-	if ((env->last_meals[left] + env->t_eat) >= time && (env->last_meals[rigth] + env->t_eat) >= time)
+	if ((env->last_meals[left] + env->t_eat) >= time
+		&& (env->last_meals[rigth] + env->t_eat) >= time)
 	{
 		t_left = env->last_meals[left] + env->t_eat - time;
 		t_rigth = env->last_meals[rigth] + env->t_eat - time;
@@ -78,4 +79,3 @@ int	ft_check_death(t_env *env, t_philo *c_philo, int left, int rigth)
 	}
 	return (0);
 }
-		

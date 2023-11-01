@@ -53,17 +53,7 @@ int	ft_check_parameters(int ac, char **args)
 		{
 			if (ft_check_if_number(args[i]) != 0)
 			{
-				printf("Wrong parameters, the argument %d is not a number\n", i);
-				return(1);
-			}
-			i++;
-		}
-		i = 1;
-		while (i < ac)
-		{
-			if (ft_atoi(args[i]) <= 0)
-			{
-				printf("Wrong parameters, arguments must be greater than 0\n");
+				printf("Argument %d is not a valid number\n", i);
 				return (1);
 			}
 			i++;

@@ -1,4 +1,4 @@
- /* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
@@ -12,24 +12,23 @@
 
 #include "philo.h"
 
-unsigned long	ft_gettime(void)
-{
-	unsigned long	result;
-	struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	result = time.tv_sec * 1000000 + time.tv_usec;
-	return (result);
-}
-
-int 	ft_init_env(int ac, char **args, t_env *env)
+static void	ft_init_parameters(int ac, char **args, t_env *env)
 {
 	env->n_philos = ft_atoi(args[1]);
 	env->t_die = ft_atoi(args[2]) * 1000;
 	env->t_eat = ft_atoi(args[3]) * 1000;
 	env->t_sleep = ft_atoi(args[4]) * 1000;
+	if (ac == 6)
+		env->n_meals = ft_atoi(args[5]);
+	else
+		env->n_meals = -1;
+}
+
+int	ft_init_env(int ac, char **args, t_env *env)
+{
+	ft_init_parameters(ac, args, env);
 	env->death = 0;
-	env->n_meals = - 1;
+	env->death_printed = 0;
 	env->finish = 0;
 	env->round = 1;
 	env->start = 0;
@@ -48,10 +47,6 @@ int 	ft_init_env(int ac, char **args, t_env *env)
 		free(env->philo);
 		free(env->forks);
 		return (1);
-	}
-	if (ac == 6)
-	{
-		env->n_meals = ft_atoi(args[5]);
 	}
 	return (0);
 }

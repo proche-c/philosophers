@@ -24,7 +24,6 @@ void 	*ft_routine(void *args)
 		if (env->start == 1)
 			break ;
 	}
-	//usleep(100);
 	while (env->death == 0 && c_philo->finish == 0)
 	{
 		if (env->t_die <= env->t_eat)
@@ -37,18 +36,45 @@ void 	*ft_routine(void *args)
 	return (NULL);
 }
 
-int 	ft_start_threads(t_env *env)
+int 	ft_start_one_philo(t_env *env)
+{
+	if (pthread_create(&env->philo[0].id, NULL, ft_routine_one, &(env->philo[0])) != 0)
+		return (1);
+	if (pthread_join(env->philo[0].id, NULL) != 0)
+		return (1);
+	return (0);
+}
+
+int 	ft_start_multiphilos(t_env *env)
 {
 	int	i;
 
+	i = 0;
+	while (i < env->n_philos)
+	{
+		if (pthread_create(&env->philo[i].id, NULL, ft_routine, &(env->philo[i])) != 0)
+			return (1);
+		pthread_mutex_lock(&(env->change));
+		i++;
+		pthread_mutex_unlock(&(env->change));
+		if (i == env->n_philos)
+		{
+			pthread_mutex_lock(&(env->change));
+			env->start = 1;
+			pthread_mutex_unlock(&(env->change));
+		}
+	}
+	return (0);
+}
+
+int 	ft_start_threads(t_env *env)
+{
+	int	i;
+	//int	result;
+
 	env->t_start = ft_gettime();
 	if (env->n_philos == 1)
-	{
-		if (pthread_create(&env->philo[0].id, NULL, ft_routine_one, &(env->philo[0])) != 0)
-			return (1);
-		if (pthread_join(env->philo[0].id, NULL) != 0)
-			return (1);
-	}
+		return (ft_start_one_philo(env));
 	else
 	{
 		i = 0;
@@ -57,21 +83,8 @@ int 	ft_start_threads(t_env *env)
 			env->last_meals[i] = env->t_start;
 			i++;
 		}
-		i = 0;
-		while (i < env->n_philos)
-		{
-			if (pthread_create(&env->philo[i].id, NULL, ft_routine, &(env->philo[i])) != 0)
-				return (1);
-			pthread_mutex_lock(&(env->change));
-			i++;
-			pthread_mutex_unlock(&(env->change));
-			if (i == env->n_philos)
-			{
-				pthread_mutex_lock(&(env->change));
-				env->start = 1;
-				pthread_mutex_unlock(&(env->change));
-			}
-		}
+		if (ft_start_multiphilos(env) == 1)
+			return (1);
 		i = 0;
 		while (i < env->n_philos)
 		{

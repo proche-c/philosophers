@@ -46,6 +46,7 @@ typedef struct s_env
 	unsigned long	t_sleep;
 	unsigned long	*last_meals;
 	int				death;
+	int				death_printed;
 	int				n_meals;
 	int				finish;
 	int				round;
@@ -56,15 +57,15 @@ typedef struct s_env
 	pthread_mutex_t change;
 }	t_env;
 
-/*	checkers	*/
+/*	checkers	*/ // 2 static functions
 int				ft_check_parameters(int ac, char **args);
 
 /*	clean	*/
+void			ft_unlock(t_env *env);
 void			ft_free_env(t_env *env);
 void 			ft_destroy(t_env *env);
 
-/*	init	*/
-unsigned long	ft_gettime(void);
+/*	init	*/ // 1 static function
 int 			ft_init_env(int ac, char **args, t_env *env);
 int				ft_init_philos(t_env *env);
 int				ft_init_forks(t_env *env);
@@ -93,7 +94,7 @@ void			ft_philo_write(t_env *env, t_philo *c_philo, char *str);
 void			ft_print_eating(t_env *env, t_philo *c_philo);
 void			ft_print_sleeping(t_env *env, t_philo *c_philo);
 void			ft_print_thinking(t_env *env, t_philo *c_philo);
-void			ft_print_die_and_print(t_env *env, t_philo *c_philo);
+void			ft_print_death(t_env *env, t_philo *c_philo);
 
 /*	philos_uneven	*/
 void			ft_update_round_uneven(t_env *env, t_philo *c_philo);
@@ -103,6 +104,9 @@ void			ft_eat_to_sleep_uneven(t_env *env, t_philo *c_philo);
 /*	threads	*/
 void 			*ft_routine(void *args);
 int 			ft_start_threads(t_env *env);
+
+/*	time	*/
+unsigned long	ft_gettime(void);
 
 /*	utils	*/ // 2 static
 unsigned long	ft_atoi(const char *str);
